@@ -1,7 +1,15 @@
 #! /usr/bin/python3
 
-import ev3 # includes lots of other stuff
+import ev3 
+# includes lots of other stuff
 
+def read_mac_address():
+    # read MAC ADDRESS from file (in gitignore)
+    f=open("MAC_ADDRESS","r")
+    mac=f.read().strip()
+    f.close()
+    if len(mac)!=2*6+5:
+        raise Exception("file MAC_ADDRESS has wrong format")
 
 class EV3Command(ev3.EV3):
     # __init__ is used from base class EV3
@@ -86,4 +94,21 @@ class EV3Command(ev3.EV3):
             ev3.LCX(brake_int)                           # BRAKE
         ])
         self.send_direct_cmd(ops)
+
+    def drive_motor(self,speed:int,port:str) -> None :
+        # TODO
+        pass
+
+    def get_wheel_position(self):
+        # TODO
         return
+
+    def get_gyro_position(self):
+        # TODO
+        return
+
+    def get_distance(self):
+        # TODO
+        return
+
+
