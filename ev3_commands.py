@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 import ev3 
-# includes lots of other stuff
+import struct
 
 def read_mac_address():
     # read MAC ADDRESS from file (in gitignore)
@@ -10,6 +10,7 @@ def read_mac_address():
     f.close()
     if len(mac)!=2*6+5:
         raise Exception("file MAC_ADDRESS has wrong format")
+    return mac
 
 class EV3Command(ev3.EV3):
     # __init__ is used from base class EV3
@@ -71,7 +72,6 @@ class EV3Command(ev3.EV3):
             ev3.LCX(ports)           # NOS
         ])
         self.send_direct_cmd(ops)
-        return
 
 
     def stop(self, brake: bool=False) -> None:
@@ -99,9 +99,34 @@ class EV3Command(ev3.EV3):
         # TODO
         pass
 
-    def get_wheel_position(self):
+    def reset_wheel_position(self) -> None :
         # TODO
-        return
+        pass
+
+    def get_wheel_position(self) -> int:
+        # TODO: eman{e reading as float
+        ops = b''.join([
+            ev3.opInput_Device,
+            ev3.READY_RAW,
+            ev3.LCX(0),                         # LAYER
+            ev3.port_motor_input(ev3.PORT_A),   # NO
+            ev3.LCX(7),                         # TYPE - EV3-Large-Motor
+            ev3.LCX(1),                         # MODE - Degree
+            ev3.LCX(1),                         # VALUES
+            ev3.GVX(0),                         # VALUE1
+            ev3.opInput_Device,
+            ev3.READY_RAW,
+            ev3.LCX(0),                         # LAYER
+            ev3.port_motor_input(ev3.PORT_B),   # NO
+            ev3.LCX(7),                         # TYPE - EV3-Large-Motor
+            ev3.LCX(0),                         # MODE - Degree
+            ev3.LCX(1),                         # VALUES
+            ev3.GVX(4)                          # VALUE1
+        ])
+        reply = self.send_direct_cmd(ops, global_mem=8)
+        pos = struct.unpack('<ii', reply[5:])
+        # pos has length 2
+        return pos[0]
 
     def get_gyro_position(self):
         # TODO
