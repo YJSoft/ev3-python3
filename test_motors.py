@@ -8,17 +8,17 @@ import time
 
 
 def read_mac_address():
-	# read MAC ADDRESS from file (in gitignore)
-	f=open("MAC_ADDRESS","r")
-	mac=f.read().strip()
-	f.close()
-	if len(mac)!=2*6+5:
-		raise Exception("file MAC_ADDRESS has wrong format")
+    # read MAC ADDRESS from file (in gitignore)
+    f=open("MAC_ADDRESS","r")
+    mac=f.read().strip()
+    f.close()
+    if len(mac)!=2*6+5:
+        raise Exception("file MAC_ADDRESS has wrong format")
 
 
-MAC_ADDRESS=read_mac_address()
+mac_address=read_mac_address()
 
-e=ev3.EV3(protocol=ev3.BLUETOOTH, host=MAC_ADDRES)
+e=ev3.EV3(protocol=ev3.BLUETOOTH, host=mac_address)
 
 e.verbosity=1
 
