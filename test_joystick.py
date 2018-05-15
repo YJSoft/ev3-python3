@@ -31,13 +31,18 @@ time.sleep(0.4)
 pos=e.get_wheel_position()
 print("wheel position = "+str(pos))
 
-
 while True:
     j.update()
     v = j.get_axis_position(0, 0)
     v = int(v)
     print('%d' % v)
-    e.drive_with_turn(v,200)
+    
+    if v==0:
+        e.drive_with_turn(0,200)
+        e.stop(False)
+    else:
+            
+        e.drive_with_turn(v,200)
     time.sleep(0.05)
 
 #e.drive_with_turn(-100,200)
