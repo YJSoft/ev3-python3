@@ -30,13 +30,15 @@ time.sleep(0.4)
 
 pos=e.get_wheel_position()
 print("wheel position = "+str(pos))
+anzahl=0
+anzahl2=0
 
 while True:
     j.update()
     v = j.get_axis_position(0, 0)
     v = int(v)
-    print('%d' % v)
-    
+    rate=e.get_gyro_rate()
+    print('v=%4d, rate=%4d' % (v,rate) )
     if v==0:
         e.drive_with_turn(0,200)
         e.stop(False)
@@ -44,7 +46,19 @@ while True:
             
         e.drive_with_turn(v,200)
     time.sleep(0.05)
-
+    
+    if -5<=rate and rate<=5:
+        anzahl=anzahl+1
+    else:
+        anzahl2=anzahl2+1
+        anzahl=0
+    
+    if anzahl==5 and anzahl2>=5:
+        print('Du hast es geschafft! Das Pendel steht still.')
+        e.play_tone(256,0.3,1)
+        
+        
+        
 #e.drive_with_turn(-100,200)
 #time.sleep(1)
 #e.drive_with_turn(100,200)
@@ -53,6 +67,11 @@ while True:
 #time.sleep(1)
 #e.drive_with_turn(0,200)
 #time.sleep(1)
+
+
+    
+
+
 
 
 
