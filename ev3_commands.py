@@ -178,6 +178,12 @@ class EV3Command(ev3.EV3):
          # pos has length 2
          return (pos[0],pos[1])
 
+    def reset_gyro_angle(self):
+        # switch modes to reset gyro angle
+        self.get_gyro_angle_rate()
+        self.get_gyro_rate()
+
+
     def get_distance(self):
         # TODO
         return
