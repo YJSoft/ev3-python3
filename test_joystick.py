@@ -38,14 +38,15 @@ while True:
     v = j.get_axis_position(0, 0)
     v = int(v)
     rate=e.get_gyro_rate()
-    print('v=%4d, rate=%4d' % (v,rate) )
+    milli_seconds=int(time.time()*1000)%(60*1000)
+    print('v=%4d, rate=%4d ms=%5d' % (v,rate,milli_seconds) )
     if v==0:
         e.drive_with_turn(0,200)
         e.stop(False)
     else:
             
         e.drive_with_turn(v,200)
-    time.sleep(0.05)
+    time.sleep(0.01)
     
     if -5<=rate and rate<=5:
         anzahl=anzahl+1

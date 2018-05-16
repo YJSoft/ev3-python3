@@ -144,27 +144,36 @@ class EV3Command(ev3.EV3):
          return pos[0]
         
 
-    def get_gyro_data(self):
+    def get_gyro_angle(self):
          ops = b''.join([
              ev3.opInput_Device,
              ev3.READY_RAW,
              ev3.LCX(0),                # LAYER
-             ev3.LCX(3),       # NO ( port 4)
+             ev3.LCX(1),       # NO ( port 2)
              ev3.LCX(32),      # TYPE - GYRO
-             ev3.LCX(1),       # MODE - Gyro-Rate
+             ev3.LCX(0),       # MODE - Gyro-Angle
              ev3.LCX(1),       # VALUES
              ev3.GVX(0),       # VALUE1
+         ])
+         reply = self.send_direct_cmd(ops, global_mem=4)
+#          print(reply)
+         pos = struct.unpack('<i', reply[5:])
+         # pos has length 1
+         return pos[0]
+
+    def get_gyro_angle_rate(self):
+         ops = b''.join([
              ev3.opInput_Device,
              ev3.READY_RAW,
-             ev3.LCX(0),       # LAYER
-             ev3.LCX(3),       # NO ( port 4)
+             ev3.LCX(0),                # LAYER
+             ev3.LCX(1),       # NO ( port 2)
              ev3.LCX(32),      # TYPE - GYRO
-             ev3.LCX(4),       # MODE - Gyro-Calibration
-             ev3.LCX(1),       # VALUES
-             ev3.GVX(4)        # VALUE1
+             ev3.LCX(3),       # MODE - Gyro-Angle+Gyro
+             ev3.LCX(2),       # VALUES
+             ev3.GVX(0),       # VALUE1
+             ev3.GVX(4),       # VALUE1
          ])
          reply = self.send_direct_cmd(ops, global_mem=8)
-#          print(reply)
          pos = struct.unpack('<ii', reply[5:])
          # pos has length 2
          return (pos[0],pos[1])
