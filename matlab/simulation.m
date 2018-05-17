@@ -10,12 +10,14 @@ n = floor(duration/h);
 
 
 % setze startwerte
-q0 = [ 0.0  pi/2 ];
+% q0 = [ 0.0  pi/2 ];
+q0 = [ -2.17  0.07 ];
 
 % setze konstanten
 g = 9.81;
-r = 1;
-c_r = 0.2;
+r = .5;
+c_1 = 22.66;
+c_r = 0.4045;
 
 
 q_data = zeros(n, 2);
@@ -33,7 +35,7 @@ for i=2:n
 	alpha = old_q(2);
 
 	% berechne q't()
-	q_derivative = [ -(g/r)* sin(alpha) - c_r * omega  omega ];
+	q_derivative = [ -c_1* sin(alpha) - c_r * omega  omega ];
 
 	new_q = q_derivative*h + old_q;
 
