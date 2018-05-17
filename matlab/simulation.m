@@ -10,7 +10,7 @@ n = floor(duration/h);
 
 
 % setze startwerte
-% q0 = [ 0.0  pi/2 ];
+q0 = [ 0.0  pi/2 ];
 
 if exist('alpha0') && exist('omega0')
 	q0 = [ omega0 alpha0 ];
@@ -54,3 +54,6 @@ end
 
 times = h*(1:n) - h;
 
+
+figure(1);
+plot(times, q_data);

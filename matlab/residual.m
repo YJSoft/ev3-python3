@@ -1,4 +1,4 @@
-function err = residual(c_1,c_r,omega0,alpha0,exp_data)
+function err = residual(c_1,c_r,omega0,alpha0,bias,exp_data)
 
 h = 0.1^3;
 beta = 0.1;
@@ -27,7 +27,7 @@ for i = 2:n
 		new_q = q_derivative*h2 + old_q;
 		old_q = new_q;
 	end
-	err = err + timediff* ( (exp_data(i,1) - old_q(1))^2 );
+	err = err + timediff* ( (bias + exp_data(i,1) - old_q(1))^2 );
 
 end
 

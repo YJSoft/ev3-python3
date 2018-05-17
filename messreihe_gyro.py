@@ -19,7 +19,7 @@ time.sleep(0.4)
 e.reset_gyro_angle()
 startzeit=time.time()
 i=0
-datenpunkte=50
+datenpunkte=500
 listea=[]
 listeb=[]
 listec=[]
