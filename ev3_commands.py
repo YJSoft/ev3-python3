@@ -129,19 +129,19 @@ class EV3Command(ev3.EV3):
         return pos[0]
 
     def get_gyro_rate(self):
-         ops = b''.join([
-             ev3.opInput_Device,
-             ev3.READY_RAW,
-             ev3.LCX(0),                # LAYER
-             ev3.LCX(1),       # NO ( port 2)
-             ev3.LCX(32),      # TYPE - GYRO
-             ev3.LCX(1),       # MODE - Gyro-Rate
-             ev3.LCX(1),       # VALUES
-             ev3.GVX(0),       # VALUE1
-         ])
-         reply = self.send_direct_cmd(ops, global_mem=4)
-         pos = struct.unpack('<i',reply[5:])
-         return pos[0]
+        ops = b''.join([
+            ev3.opInput_Device,
+            ev3.READY_RAW,
+            ev3.LCX(0),                # LAYER
+            ev3.LCX(1),       # NO ( port 2)
+            ev3.LCX(32),      # TYPE - GYRO
+            ev3.LCX(1),       # MODE - Gyro-Rate
+            ev3.LCX(1),       # VALUES
+            ev3.GVX(0),       # VALUE1
+        ])
+        reply = self.send_direct_cmd(ops, global_mem=4)
+        pos = struct.unpack('<i',reply[5:])
+        return pos[0]
         
 
     def get_gyro_angle(self):
@@ -162,27 +162,42 @@ class EV3Command(ev3.EV3):
          return pos[0]
 
     def get_gyro_angle_rate(self):
-         ops = b''.join([
-             ev3.opInput_Device,
-             ev3.READY_RAW,
-             ev3.LCX(0),                # LAYER
-             ev3.LCX(1),       # NO ( port 2)
-             ev3.LCX(32),      # TYPE - GYRO
-             ev3.LCX(3),       # MODE - Gyro-Angle+Gyro
-             ev3.LCX(2),       # VALUES
-             ev3.GVX(0),       # VALUE1
-             ev3.GVX(4),       # VALUE1
-         ])
-         reply = self.send_direct_cmd(ops, global_mem=8)
-         pos = struct.unpack('<ii', reply[5:])
-         # pos has length 2
-         return (pos[0],pos[1])
+        ops = b''.join([
+            ev3.opInput_Device,
+            ev3.READY_RAW,
+            ev3.LCX(0),                # LAYER
+            ev3.LCX(1),       # NO ( port 2)
+            ev3.LCX(32),      # TYPE - GYRO
+            ev3.LCX(3),       # MODE - Gyro-Angle+Gyro
+            ev3.LCX(2),       # VALUES
+            ev3.GVX(0),       # VALUE1
+            ev3.GVX(4),       # VALUE1
+        ])
+        reply = self.send_direct_cmd(ops, global_mem=8)
+        pos = struct.unpack('<ii', reply[5:])
+        # pos has length 2
+        return (pos[0],pos[1])
 
     def reset_gyro_angle(self):
         # switch modes to reset gyro angle
         self.get_gyro_angle_rate()
         self.get_gyro_rate()
 
+    def get_color_data(self):
+        ops = b''.join([
+             ev3.opInput_Device,
+             ev3.READY_SI,
+             ev3.LCX(0),                # LAYER
+             ev3.LCX(2),       # NO ( port 3)
+             ev3.LCX(29),      # TYPE - color
+             ev3.LCX(4),       # MODE -
+             ev3.LCX(1),       # VALUES
+             ev3.GVX(0),       # VALUE1
+        ])
+        reply = self.send_direct_cmd(ops, global_mem=4)
+        pos = struct.unpack('<f', reply[5:])
+        # pos has length 1
+        return pos[0]
 
     def get_distance(self):
         # TODO

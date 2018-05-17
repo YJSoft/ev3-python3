@@ -57,10 +57,14 @@ e.get_gyro_rate()
 
 for i in range(3000):
 #     b=e.get_gyro_angle()
-    (a,b)=e.get_gyro_data()
+    before=time.time()
+#     (a,b)=e.get_gyro_data()
+    c=e.get_color_data()
+    print(c)
+    diff=time.time()-before
 #     a=e.get_gyro_rate()
-    print("a="+str(a)+", b="+str(b))
+#     print("a="+str(a)+", b="+str(b)+", diff="+str(diff))
 #     print("a="+str(a)+", b="+str(b)+", type="+str(type(b)))
-    time.sleep(0.05)
+    time.sleep(0.25)
 
 
