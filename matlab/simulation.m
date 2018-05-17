@@ -11,13 +11,22 @@ n = floor(duration/h);
 
 % setze startwerte
 % q0 = [ 0.0  pi/2 ];
-q0 = [ -2.17  0.07 ];
+
+if exist('alpha0') && exist('omega0')
+	q0 = [ omega0 alpha0 ];
+end
 
 % setze konstanten
 g = 9.81;
 r = .5;
-c_1 = 22.66;
-c_r = 0.4045;
+
+if ~exist('c_1')
+	c_1 = g/r;
+end
+
+if ~exist('c_r')
+	c_r = 0.4045;
+end
 
 
 q_data = zeros(n, 2);
