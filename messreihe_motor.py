@@ -16,13 +16,13 @@ a=0
 listedt=[]
 listew1=[]
 listew2=[]
-datenpunkte=16
+datenpunkte=25
 startzeit=time.time()
 #Das Hin-und Herfahren
 
-e.drive_with_turn(100,200)
-time.sleep(0.2)
-while a<16:
+e.set_speed(100)
+#time.sleep(0.05)
+while a<datenpunkte:
     (w1,w2) = e.get_wheel_position()
     t=time.time()
     dt=t-startzeit
