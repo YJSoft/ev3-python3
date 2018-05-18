@@ -53,7 +53,7 @@ class EV3Command(ev3.EV3):
         assert isinstance(speed, int), \
                 'speed needs to be an integer value'
         assert -100 <= speed and speed <= 100, \
-                "speed needs to be in range [-100 - 100]"
+                'speed needs to be in range [-100 - 100]'
         assert isinstance(turn, int), \
                 'turn needs to be an integer value'
         assert -200 <= turn and turn <= 200, \
@@ -95,12 +95,35 @@ class EV3Command(ev3.EV3):
         ])
         self.send_direct_cmd(ops)
 
+    def set_speed(self, speed:int) -> None :
+
+        assert -100 <= speed and speed <=100,\
+            'speed needs to be an integer value'
+        
+        ops = b''.join([
+            ev3.opOutput_Speed,
+            ev3.LCX(0),             # LAYER
+            ev3.LCX(ev3.PORT_A),    # NOS
+            ev3.LCX(speed),         # in the specified direction
+            ev3.opOutput_Speed,
+            ev3.LCX(0),             # LAYER
+            ev3.LCX(ev3.PORT_D),    # NOS
+            ev3.LCX(-speed),        # opposite direction
+            ev3.opOutput_Start,
+            ev3.LCX(0),              # LAYER
+            ev3.LCX(ev3.ports)           # NOS
+       ])
+       self.send_direct_cmd(ops)
+        
+
     def drive_motor(self,speed:int,port:str) -> None :
         # TODO
         pass
 
     def reset_wheel_position(self) -> None :
         # TODO
+#         ops = b''.join([
+#             ev3.opOutput
         pass
 
     def get_wheel_position(self) -> int:
