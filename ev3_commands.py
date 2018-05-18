@@ -112,9 +112,9 @@ class EV3Command(ev3.EV3):
             ev3.opOutput_Start,
             ev3.LCX(0),              # LAYER
             ev3.LCX(ev3.ports)           # NOS
-       ])
-       self.send_direct_cmd(ops)
-        
+        ])
+        self.send_direct_cmd(ops)
+
 
     def drive_motor(self,speed:int,port:str) -> None :
         # TODO
