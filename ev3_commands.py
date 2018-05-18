@@ -111,7 +111,7 @@ class EV3Command(ev3.EV3):
             ev3.LCX(-speed),        # opposite direction
             ev3.opOutput_Start,
             ev3.LCX(0),              # LAYER
-            ev3.LCX(ev3.ports)           # NOS
+            ev3.LCX(ev3.PORT_A+ev3.PORT_D)           # NOS
         ])
         self.send_direct_cmd(ops)
 
