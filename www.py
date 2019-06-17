@@ -14,6 +14,7 @@ def rootpage():
 @wwwapp.route("/moveSync/<type>/<port>/<speed>")
 def cmd_move(type, port, speed):
     try:
+        speed = int(speed)
         my_vehicle.port_left = ev3.PORT_A
         my_vehicle.port_right = ev3.PORT_D
         if port == "port_bc":
