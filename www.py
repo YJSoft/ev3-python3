@@ -7,6 +7,8 @@ my_ev3 = ev3.EV3(protocol=ev3.BLUETOOTH, host='00:16:53:4f:28:a6')
 my_music = ev3_sound.Jukebox(ev3_obj=my_ev3)
 my_vehicle = ev3_vehicle.TwoWheelVehicle(radius_wheel=0.056,tread=0.028,ev3_obj=my_ev3)
 
+curLED = "N/A"
+
 def ultra(port):
     ops = b''.join([
         ev3.opInput_Device,
@@ -22,12 +24,15 @@ def ultra(port):
     return struct.unpack('<f', reply[5:])[0]
 
 def led(color):
-    ops = b''.join([
-        ev3.opUI_Write,
-        ev3.LED,
-        ev3.__dict__["LED_" + color]
-    ])
-    my_ev3.send_direct_cmd(ops)
+    global curLED
+    if curLED != color:
+        ops = b''.join([
+            ev3.opUI_Write,
+            ev3.LED,
+            ev3.__dict__["LED_" + color]
+        ])
+        my_ev3.send_direct_cmd(ops)
+        curLED = color
 
 @wwwapp.route("/")
 def rootpage():
