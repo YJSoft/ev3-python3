@@ -70,10 +70,18 @@ def cmd_sensor(type, port):
     return "Success"
 
 @wwwapp.route("/led/<color>")
-def cmd_sensor(color):
+def cmd_led(color):
     try:
         assert "LED_" + color in ev3.__dict__, "Invalid color id"
         led(color)
+    except Exception:
+        return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
+    return "Success"
+
+@wwwapp.route("/tone/<hz>/<time>/<vol>")
+def cmd_tone(hz, time, vol):
+    try:
+        assert False, "WIP"
     except Exception:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
