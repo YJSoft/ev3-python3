@@ -15,7 +15,7 @@ def cmd_move(type, port, speed):
     try:
         my_vehicle.port_left = ev3.PORT_A
         my_vehicle.port_right = ev3.PORT_D
-        if port == "port_bc"
+        if port == "port_bc":
             my_vehicle.port_left = ev3.PORT_B
             my_vehicle.port_right = ev3.PORT_C
         
