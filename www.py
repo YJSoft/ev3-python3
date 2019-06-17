@@ -1,5 +1,5 @@
 import ev3, ev3_sound, ev3_vehicle
-import traceback
+import traceback, struct
 from flask import Flask
 wwwapp = Flask(__name__)
 
