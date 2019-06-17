@@ -56,7 +56,7 @@ def cmd_sensor(type, port):
         assert port >= 0 and port < 4, "Port number out of range"
         assert type == "ultra", "Not supported yet"
         
-        return ultra(port)
+        return str(ultra(port))
     except Exception:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
