@@ -21,6 +21,14 @@ def ultra(port):
     reply = my_ev3.send_direct_cmd(ops, global_mem=4)
     return struct.unpack('<f', reply[5:])[0]
 
+def led(color):
+    ops = b''.join([
+        opUI_Write,
+        LED,
+        ev3["LED_" + color]
+    ])
+    my_ev3.send_direct_cmd(ops)
+
 @wwwapp.route("/")
 def rootpage():
     return "EV3 WWW Gateway v0.1 by Robogram!"
@@ -57,6 +65,15 @@ def cmd_sensor(type, port):
         assert type == "ultra", "Not supported yet"
         
         return str(ultra(port))
+    except Exception:
+        return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
+    return "Success"
+
+@wwwapp.route("/led/<color>")
+def cmd_sensor(color):
+    try:
+        assert "LED_" + color in ev3.__dict__, "Invalid color id"
+        led(color)
     except Exception:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
