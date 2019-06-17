@@ -53,7 +53,7 @@ def cmd_move(type, port, speed):
 def cmd_sensor(type, port):
     try:
         port = int(port) - 1
-        assert port >= 0 && port < 4, "Port number out of range"
+        assert port >= 0 and port < 4, "Port number out of range"
         assert type == "ultra", "Not supported yet"
         
         return ultra(port)
