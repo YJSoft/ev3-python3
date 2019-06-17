@@ -1,4 +1,5 @@
 import ev3, ev3_sound, ev3_vehicle
+import traceback
 from flask import Flask
 wwwapp = Flask(__name__)
 
@@ -29,8 +30,8 @@ def cmd_move(type, port, speed):
             my_vehicle.move(speed, -200)
         else:
             pass
-    except Exception as e:
-        return "Failure" + e
+    except Exception:
+        return "Failure<xmp>" + traceback.format_exc() + "</xmp>"
     return "Success"
     
 if __name__ == '__main__':
