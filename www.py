@@ -24,8 +24,8 @@ def ultra(port):
 def led(color):
     ops = b''.join([
         ev3.opUI_Write,
-        LED,
-        ev3.ev3["LED_" + color]
+        ev3.LED,
+        ev3["LED_" + color]
     ])
     my_ev3.send_direct_cmd(ops)
 
