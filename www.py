@@ -29,8 +29,8 @@ def cmd_move(type, port, speed):
             my_vehicle.move(speed, -200)
         else:
             pass
-    except Exception:
-        return "Failure"
+    except Exception as e:
+        return "Failure" + e
     return "Success"
     
 if __name__ == '__main__':
