@@ -125,12 +125,14 @@ def cmd_song(name, vol):
     try:
         if curSong is not None and curSong.state != STATE_STOPPED:
             curSong.stop()
+        if name == "STOP":
+            return "Success-Stopped"
         my_music.volume = int(vol)
         curSong = my_music.song(ev3_sound.__dict__[name])
         curSong.start()
     except:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
-    return "Success"
+    return "Success-Playing"
     
 if __name__ == '__main__':
     wwwapp.run(host='0.0.0.0', port=8088)
