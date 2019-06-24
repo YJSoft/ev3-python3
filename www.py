@@ -55,7 +55,7 @@ def cmd_move(type, port, speed):
     
     # if direction and speed are same, skip command send
     if curDirection[port] == type and curSpeed[port] == speed:
-        return
+        return "Success-cached"
     try:
         # save last direction and speed
         curDirection[port] = type
