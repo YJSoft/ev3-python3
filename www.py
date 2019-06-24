@@ -13,6 +13,7 @@ lastUltra = 0
 curUltra = -1
 curDirection = {"port_ad":"N/A", "port_bc":"N/A"}
 curSpeed = {"port_ad":0, "port_bc":0}
+curSong = None
 
 def ultra(port):
     global lastUltra
@@ -119,9 +120,13 @@ def cmd_tone(hz, time, vol):
 
 @wwwapp.route("/song/<name>/<vol>")
 def cmd_song(name, vol):
+    global curSong
     try:
+        if curSong is not None:
+            curSong.stop()
         my_music.volume = int(vol)
-        my_music.song(ev3_sound.__dict__[name])
+        curSong = my_music.song(ev3_sound.__dict__[name])
+        curSong.start()
     except:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
