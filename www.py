@@ -107,7 +107,8 @@ def cmd_led(color):
 @wwwapp.route("/tone/<hz>/<time>/<vol>")
 def cmd_tone(hz, time, vol):
     try:
-        assert False, "WIP"
+        my_music.volume = vol
+        my_music.play_tone(hz, time / 1000)
     except Exception:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
