@@ -161,7 +161,7 @@ class Jukebox(ev3.EV3):
         plays a tone
 
         Attributes:
-        tone: name of tone f.i. "c'", "cb''", "c#"
+        tone: name of tone f.i. "c'", "cb''", "c#" or hz number
 
         Keyword Attributes:
         duration: length (sec.) of the tone (value 0 means forever)
@@ -169,41 +169,47 @@ class Jukebox(ev3.EV3):
         assert isinstance(duration, numbers.Number), "duration needs to be a number"
         assert duration >= 0, "duration needs to be positive"
         # pylint: disable=redefined-variable-type
-        if tone == "p":
-            self.stop()
-            return
-        elif tone.startswith("c"):
-            freq = self._temperament * 2**(-9/12)
-        elif tone.startswith("d"):
-            freq = self._temperament * 2**(-7/12)
-        elif tone.startswith("e"):
-            freq = self._temperament * 2**(-5/12)
-        elif tone.startswith("f"):
-            freq = self._temperament * 2**(-4/12)
-        elif tone.startswith("g"):
-            freq = self._temperament * 2**(-2/12)
-        elif tone.startswith("a"):
-            freq = self._temperament
-        elif tone.startswith("b"):
-            freq = self._temperament * 2**(2/12)
+        if isinstance(tone, numbers.Number):
+            if tone == 0:
+                self.stop()
+                return
+            freq = tone
         else:
-            raise AttributeError('unknown Tone: ' + tone)
-        # pylint: enable=redefined-variable-type
+            if tone == "p":
+                self.stop()
+                return
+            elif tone.startswith("c"):
+                freq = self._temperament * 2**(-9/12)
+            elif tone.startswith("d"):
+                freq = self._temperament * 2**(-7/12)
+            elif tone.startswith("e"):
+                freq = self._temperament * 2**(-5/12)
+            elif tone.startswith("f"):
+                freq = self._temperament * 2**(-4/12)
+            elif tone.startswith("g"):
+                freq = self._temperament * 2**(-2/12)
+            elif tone.startswith("a"):
+                freq = self._temperament
+            elif tone.startswith("b"):
+                freq = self._temperament * 2**(2/12)
+            else:
+                raise AttributeError('unknown Tone: ' + tone)
+            # pylint: enable=redefined-variable-type
 
-        if len(tone) > 1:
-            if tone[1] == "#":
-                freq *= 2**(1/12)
-            elif tone[1] == "b":
-                freq /= 2**(1/12)
+            if len(tone) > 1:
+                if tone[1] == "#":
+                    freq *= 2**(1/12)
+                elif tone[1] == "b":
+                    freq /= 2**(1/12)
 
-        if tone.endswith("'''"):
-            freq *= 4
-        elif tone.endswith("''"):
-            freq *= 2
-        elif tone.endswith("'"):
-            pass
-        else:
-            freq /= 2
+            if tone.endswith("'''"):
+                freq *= 4
+            elif tone.endswith("''"):
+                freq *= 2
+            elif tone.endswith("'"):
+                pass
+            else:
+                freq /= 2
 
         freq = round(freq)
         if freq < 250:
