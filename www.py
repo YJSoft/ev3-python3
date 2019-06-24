@@ -117,11 +117,11 @@ def cmd_tone(hz, time, vol):
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
 
-@wwwapp.route("/tone/<song>/<vol>")
-def cmd_song(song, vol):
+@wwwapp.route("/song/<name>/<vol>")
+def cmd_song(name, vol):
     try:
         my_music.volume = int(vol)
-        my_music.song(my_music.__dict__[song])
+        my_music.song(ev3_sound.__dict__[name])
     except Exception:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
