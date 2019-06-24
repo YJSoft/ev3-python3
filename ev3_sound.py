@@ -23,6 +23,7 @@ import numbers
 import time
 import ev3
 import task
+from typing import Union
 
 TRIAS = {
     "tempo": 80,
