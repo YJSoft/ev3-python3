@@ -123,9 +123,8 @@ def cmd_tone(hz, time, vol):
 def cmd_song(name, vol):
     global curSong
     try:
-        if curSong is not None:
-            if curSong.state !== STATE_STOPPED:
-                curSong.stop()
+        if curSong is not None and curSong.state != STATE_STOPPED:
+            curSong.stop()
         my_music.volume = int(vol)
         curSong = my_music.song(ev3_sound.__dict__[name])
         curSong.start()
