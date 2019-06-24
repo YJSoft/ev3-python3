@@ -1,4 +1,5 @@
 import ev3, ev3_sound, ev3_vehicle
+from task import STATE_STOPPED
 import traceback, struct
 from time import time
 from flask import Flask
@@ -122,7 +123,7 @@ def cmd_tone(hz, time, vol):
 def cmd_song(name, vol):
     global curSong
     try:
-        if curSong is not None:
+        if curSong is not None and curSong.state !== STATE_STOPPED:
             curSong.stop()
         my_music.volume = int(vol)
         curSong = my_music.song(ev3_sound.__dict__[name])
