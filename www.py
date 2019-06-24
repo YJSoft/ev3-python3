@@ -79,7 +79,7 @@ def cmd_move(type, port, speed):
             my_vehicle.move(speed, -200)
         else:
             pass
-    except Exception:
+    except:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
 
@@ -91,7 +91,7 @@ def cmd_sensor(type, port):
         assert type == "ultra", "Not supported yet"
         
         return str(ultra(port))
-    except Exception:
+    except:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
 
@@ -100,7 +100,7 @@ def cmd_led(color):
     try:
         assert "LED_" + color in ev3.__dict__, "Invalid color id"
         led(color)
-    except Exception:
+    except:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
 
@@ -113,7 +113,7 @@ def cmd_tone(hz, time, vol):
         except ValueError:
             parsed_hz = hz
         my_music.play_tone(parsed_hz, float(time) / 1000)
-    except Exception:
+    except:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
 
@@ -122,7 +122,7 @@ def cmd_song(name, vol):
     try:
         my_music.volume = int(vol)
         my_music.song(ev3_sound.__dict__[name])
-    except Exception:
+    except:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
     
