@@ -1,5 +1,6 @@
 import ev3, ev3_sound, ev3_vehicle
 import traceback, struct
+from time import time
 from flask import Flask
 wwwapp = Flask(__name__)
 
@@ -8,8 +9,15 @@ my_music = ev3_sound.Jukebox(ev3_obj=my_ev3)
 my_vehicle = ev3_vehicle.TwoWheelVehicle(radius_wheel=0.056,tread=0.028,ev3_obj=my_ev3)
 
 curLED = "N/A"
+lastUltra = 0
+curUltra = -1
+curDirection = {"port_ad":"N/A", "port_bc":"N/A"}
+curSpeed = {"port_ad":0, "port_bc":0}
 
 def ultra(port):
+    global lastUltra
+    if time() - lastUltra < 0.5:
+        return curUltra
     ops = b''.join([
         ev3.opInput_Device,
         ev3.READY_SI,
@@ -21,7 +29,9 @@ def ultra(port):
         ev3.GVX(0)           # VALUE1
     ])
     reply = my_ev3.send_direct_cmd(ops, global_mem=4)
-    return struct.unpack('<f', reply[5:])[0]
+    lastUltra = time()
+    curUltra = struct.unpack('<f', reply[5:])[0]
+    return curUltra
 
 def led(color):
     global curLED
@@ -40,7 +50,17 @@ def rootpage():
 
 @wwwapp.route("/moveSync/<type>/<port>/<speed>")
 def cmd_move(type, port, speed):
+    global curDirection
+    global curSpeed
+    
+    # if direction and speed are same, skip command send
+    if curDirection[port] == type and curSpeed[port] == speed:
+        return
     try:
+        # save last direction and speed
+        curDirection[port] = type
+        curSpeed[port] = speed
+        
         speed = int(speed)
         my_vehicle.port_left = ev3.PORT_A
         my_vehicle.port_right = ev3.PORT_D
