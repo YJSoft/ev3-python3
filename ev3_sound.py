@@ -156,7 +156,7 @@ class Jukebox(ev3.EV3):
         self.send_direct_cmd(ops)
 
     # pylint: disable=too-many-branches
-    def play_tone(self, tone: str, duration: float=0) -> None:
+    def play_tone(self, tone: Union[int, str], duration: float=0) -> None:
         """
         plays a tone
 
