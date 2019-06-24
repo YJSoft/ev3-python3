@@ -107,8 +107,21 @@ def cmd_led(color):
 @wwwapp.route("/tone/<hz>/<time>/<vol>")
 def cmd_tone(hz, time, vol):
     try:
-        my_music.volume = vol
-        my_music.play_tone(hz, time / 1000)
+        my_music.volume = int(vol)
+        try:
+            parsed_hz = int(hz)
+        except ValueError:
+            parsed_hz = hz
+        my_music.play_tone(parsed_hz, float(time) / 1000)
+    except Exception:
+        return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
+    return "Success"
+
+@wwwapp.route("/tone/<song>/<vol>")
+def cmd_song(song, vol):
+    try:
+        my_music.volume = int(vol)
+        my_music.song(my_music.__dict__[song])
     except Exception:
         return "Failure<xmp>" + traceback.format_exc() + "</xmp>", 500
     return "Success"
