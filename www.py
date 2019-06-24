@@ -16,6 +16,7 @@ curSpeed = {"port_ad":0, "port_bc":0}
 
 def ultra(port):
     global lastUltra
+    global curUltra
     if time() - lastUltra < 0.5:
         return curUltra
     ops = b''.join([
