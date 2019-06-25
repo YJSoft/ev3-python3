@@ -619,6 +619,42 @@ class EV3:
             return reply
         else:
             return None
+    # Robogram Custom
+    def ev3_led(self, light : str) -> None :
+        if light=='green_normal' or light=='green_nomal':
+            light = b'\x01'
+        elif light=='red_normal' or light=='red_nomal':
+            light = b'\x02'
+        elif light=='orange_normal' or light=='orange_nomal':
+            light = b'\x03'
+        elif light=='green':
+            light = b'\x04'
+        elif light=='red':
+            light = b'\x05'
+        elif light=='orange':
+            light = b'\x06'
+        else:
+            light = b'\x01'
+        ops = b''.join([
+            b'\x82',
+            b'\x1B',
+            light
+        ])
+        self.send_direct_cmd(ops)
+
+    def tone(self, vol, hz, time):
+        vol = int(vol)
+        hz = int(hz)
+        time = int(time)
+        ops = b''.join([
+            b'\x94',
+            b'\x01',
+            LCX(vol),# VOLUME
+            LCX(hz),  # FREQUENCY
+            LCX(time), # DURATION
+        ])
+        self.send_direct_cmd(ops)
+
 # pylint: enable=too-many-instance-attributes
 
 WIFI      = 'Wifi'
