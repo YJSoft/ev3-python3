@@ -51,6 +51,10 @@ def led(color):
 def rootpage():
     return "EV3 WWW Gateway v0.1 by Robogram!"
 
+@wwwapp.route("/ping")
+def pingpage():
+    return "pong"
+
 @wwwapp.route("/moveSync/<type>/<port>/<speed>")
 def cmd_move(type, port, speed):
     global curDirection
