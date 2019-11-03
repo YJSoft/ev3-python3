@@ -198,7 +198,7 @@ class Jukebox(ev3.EV3):
             # pylint: enable=redefined-variable-type
 
             if len(tone) > 1:
-                if tone[1] == "#":
+                if tone[1] == "s":
                     freq *= 2**(1/12)
                 elif tone[1] == "b":
                     freq /= 2**(1/12)
@@ -214,9 +214,9 @@ class Jukebox(ev3.EV3):
 
         freq = round(freq)
         if freq < 250:
-            raise AttributeError('tone is too low: ' + tone)
+            raise AttributeError('tone is too low: ' + str(tone))
         if freq > 10000:
-            raise AttributeError('tone is too high: ' + tone)
+            raise AttributeError('tone is too high: ' + str(tone))
         ops = b''.join([
             ev3.opSound,
             ev3.TONE,

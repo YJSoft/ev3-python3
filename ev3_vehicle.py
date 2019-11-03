@@ -658,7 +658,7 @@ class TwoWheelVehicle(ev3.EV3):
         assert exc is None or isinstance(exc, task.ExceptionHandler), \
             "exc needs to be an ExceptionHandler"
         if not exc:
-            exc = task.Task.exc_default
+            exc = task.ExceptionHandler()
 
         class _Drive(task.Task):
             def stop(self):
